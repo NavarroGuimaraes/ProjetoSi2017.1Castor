@@ -250,7 +250,7 @@ def organizar(texto):
       while b <= len(palavra):
         if b == len(palavra):
           if len(campo) == 3 and prioridadeValida(campo):
-            pri = campo
+            pri = campo[0]+campo[1].upper()+campo[2]
             campo = ""
             b += 1
             palavra = ""
@@ -384,12 +384,19 @@ def minuto(hora):
 
 def ordenarPorDataHora():
   ordenada1 = ordenarPorPrioridade()
+  sem_prioridade= []
   j = 0
   while j < len(ordenada1):
     i = 0
     while i < len(ordenada1) - 1:
       if ordenada1[i][1] != ordenada1[i+1][1]:
         i += 1
+      elif ordenada1[i][1] == "":
+        sem_prioridade.append(ordenada1[i])
+        del ordenada1[i]
+      elif ordenada1[i+1][1] == "":
+        sem_prioridade.append(ordenada1[i+1][1])
+        del ordenada1[i+1]
       else:
         data1 = ordenada1[i][2][0]
         data2 = ordenada1[i+1][2][0]
@@ -459,7 +466,7 @@ def ordenarPorDataHora():
             i += 1
 
     j += 1
-  lista_final = ordenada1
+  lista_final = ordenada1 + sem_prioridade
   return lista_final
 
   
@@ -560,8 +567,8 @@ def processarComandos(comandos) :
     comandos.pop(0) # remove 'agenda.py'
     comandos.pop(0) # remove 'adicionar'
     try:
-      itemParaAdicionar = organizar([' '.join(comandos)])[0]
-      adicionar(itemParaAdicionar[0], itemParaAdicionar[2]) # novos itens não têm prioridade
+      itemParaAdicionar = " ".join(comandos)
+      adicionar(itemParaAdicionar) # novos itens não têm prioridade
     except IndexError:
       print("Xiiii... Algo deu errado... tente novamente")
     return None
@@ -580,6 +587,7 @@ def processarComandos(comandos) :
     comandos.pop(0)
     comandos.pop(0)
     fazer(int(comandos[0]))
+
   elif comandos[1] == PRIORIZAR:
     comandos.pop(0) #remove agenda.py
     comandos.pop(0) #remove o priorizar
@@ -597,7 +605,7 @@ def processarComandos(comandos) :
 #
 # sys.argv terá como conteúdo
 #
-# ['agenda.py', 'a', 'Mudar', 'de', 'nome']
 #processarComandos(sys.argv)
 
 
+processarComandos(sys.argv) # lista de strings digitadas
