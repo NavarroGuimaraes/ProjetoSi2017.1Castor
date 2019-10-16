@@ -4,14 +4,15 @@ TODO_FILE = 'todo.txt'
 ARCHIVE_FILE = 'done.txt'
 DICIONARIO_FILE = 'dicio.txt'
 
-RED   = "\033[1;31m"  
-BLUE  = "\033[1;34m"
-CYAN  = "\033[1;36m"
-GREEN = "\033[0;32m"
-RESET = "\033[0;0m"
+RED     = "\033[1;31m"  
+BLUE    = "\033[1;34m"
+CYAN    = "\033[1;96m" #Alteração para Light Cyan para melhor visualização
+GREEN   = "\033[0;32m"
+RESET   = "\033[0;0m"
 BOLD    = "\033[;1m"
 REVERSE = "\033[;7m"
-YELLOW = "\033[0;33m"
+YELLOW  = "\033[0;33m"
+BLINK   =  "\033[;5m"
 
 ADICIONAR = 'a'
 REMOVER = 'r'
@@ -169,7 +170,7 @@ def formatoCorreto(data):
       i += 1
   if int(datas[1]) > 12 or int(datas[1]) < 1:
     return False
-  elif int(datas[2]) < 2017:
+  elif int(datas[2]) < 2019:
     return False
          
   else:
@@ -338,9 +339,9 @@ def imprimir(lista):
     tupla = data+" "+hora+" "+lista[ind][2][2]+" "+lista[ind][2][3]
     frase = string +" "+ tupla
     if lista[ind][1].upper() == "(A)" :
-      printCores("{}. {}".format(contador, frase), RED)
+      printCores("{}. {}".format(contador, frase), RED + BLINK)
     elif lista[ind][1].upper() == "(B)" :
-      printCores("{}. {}".format(contador, frase), BLUE)
+      printCores("{}. {}".format(contador, frase), BLUE + BOLD)
     elif lista[ind][1].upper() == "(C)":
       printCores("{}. {}".format(contador, frase), CYAN)
     elif lista[ind][1].upper() == "(D)":
